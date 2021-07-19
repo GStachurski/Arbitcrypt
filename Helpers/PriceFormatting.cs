@@ -13,7 +13,7 @@ namespace ArbitCrypt.Helpers
 
         public static void FormatBittrexPrices(BittrexPrices bittrexPrices)
         {
-            foreach (var price in bittrexPrices.result)
+            foreach (var price in bittrexPrices.Result)
             {
                 // remove the dash from the market name, and flip the symbols
                 if (price.MarketName.Contains("-"))

@@ -29,25 +29,25 @@ namespace ArbitCrypt.Helpers
                     dialog = "This application has the ability to contain vulgar language. Would you like to use it? ('Y' or 'N')";
                     break;
                 case ConsoleDialogs.ThresholdWarning:
-                    dialog = "You have a few crypto pairs that are over your predefined arbitrage threshold of {config._defaultArbitragePercentage}%";
+                    dialog = $"You have a few crypto pairs that are over your predefined arbitrage threshold of {config.DefaultArbitragePercentage}%";
                     break;
                 case ConsoleDialogs.RefreshPricesAsk:
                     dialog = "Hey there pal, welcome to ArbitCrypt. Tell me, how many seconds should I wait before refreshing the prices?";
                     break;
                 case ConsoleDialogs.RefreshPricesAnswer:
-                    dialog = $"Alright, no problem pal, I'll wait for {config._defaultRefreshTimeoutInSeconds} seconds before refreshing the prices for you.";
+                    dialog = $"Alright, no problem pal, I'll wait for {config.DefaultRefreshTimeoutInSeconds} seconds before refreshing the prices for you.";
                     break;
                 case ConsoleDialogs.BitcoinAndEtherAsk:
                     dialog = $"For profit calculation purposes, tell me how much BTC and ETH you have. Enter them in '|' seperated decimal form, buddy!";
                     break;
                 case ConsoleDialogs.BitcoinAndEtherAnswer:
-                    dialog = $"Excellent, it looks like you have {config._currentBtcBalance} BTC, and {config._currentEthBalance} ETH available for some good gains.";
+                    dialog = $"Excellent, it looks like you have {config.CurrentBtcBalance} BTC, and {config.CurrentEthBalance} ETH available for some good gains.";
                     break;
                 case ConsoleDialogs.ArbitrageGainAsk:
-                    dialog = $"Well, one more question. At what percent arbitrage gain should I tell you that the pair is over your threshold? The default is currently to {config._defaultArbitragePercentage}%.";
+                    dialog = $"Well, one more question. At what percent arbitrage gain should I tell you that the pair is over your threshold? The default is currently to {config.DefaultArbitragePercentage}%.";
                     break;
                 case ConsoleDialogs.ArbitrageGainAnswer:
-                    dialog = $"Alright, that sounds great to me. I will be on the lookout for those gains at or above {config._defaultArbitragePercentage}%.";
+                    dialog = $"Alright, that sounds great to me. I will be on the lookout for those gains at or above {config.DefaultArbitragePercentage}%.";
                     break;
             }
 
@@ -65,12 +65,12 @@ namespace ArbitCrypt.Helpers
         {
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine($"Configuration and Diagnostics:");
-            Console.WriteLine(new string('-', CurrentConfig._defaultSeperatorWidth));
-            Console.WriteLine($"[BTC|ETH]                     {CurrentConfig._currentBtcBalance}|{CurrentConfig._currentEthBalance}");
-            Console.WriteLine($"[PriceRefreshTime]            {CurrentConfig._defaultRefreshTimeoutInSeconds} seconds");
+            Console.WriteLine(new string('-', CurrentConfig.DefaultSeperatorWidth));
+            Console.WriteLine($"[BTC|ETH]                     {CurrentConfig.CurrentBtcBalance}|{CurrentConfig.CurrentEthBalance}");
+            Console.WriteLine($"[PriceRefreshTime]            {CurrentConfig.DefaultRefreshTimeoutInSeconds} seconds");
             Console.WriteLine($"[PriceRequestsTime]           {timer.Elapsed.Seconds}.{timer.ElapsedMilliseconds} seconds");
             Console.WriteLine($"[TimesRunSinceStart]          {priceReadoutCount}");
-            Console.WriteLine($"[ArbitrageGainPercentage]     {CurrentConfig._defaultArbitragePercentage}%");
+            Console.WriteLine($"[ArbitrageGainPercentage]     {CurrentConfig.DefaultArbitragePercentage}%");
             Console.WriteLine($"[CurrentConfigString]         {Config.GetCurrentConfig(CurrentConfig)}");
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine($"Enter new config values in the following format:");
@@ -88,7 +88,7 @@ namespace ArbitCrypt.Helpers
             };
 
             // header
-            Console.WriteLine(CurrentConfig._defaultColumnFormat,
+            Console.WriteLine(CurrentConfig.DefaultColumnFormat,
                 "MarketName",
                 "BinUsd",
                 "BitUsd",
@@ -98,7 +98,7 @@ namespace ArbitCrypt.Helpers
                 "ArbtUsdPrice",
                 "ArbtPercent",
                 "EstProfit");
-            Console.WriteLine(new string('-', CurrentConfig._defaultSeperatorWidth));
+            Console.WriteLine(new string('-', CurrentConfig.DefaultSeperatorWidth));
 
             // rows
             foreach (var pc in priceComparisons.OrderByDescending(pc => 
@@ -106,7 +106,7 @@ namespace ArbitCrypt.Helpers
                 Convert.ToDecimal(pc.EstimatedProfit.Remove(0, 1))))
             {
                 Console.OutputEncoding = System.Text.Encoding.UTF8;
-                Console.WriteLine(CurrentConfig._defaultColumnFormat,
+                Console.WriteLine(CurrentConfig.DefaultColumnFormat,
                     pc.MarketName,
                     PriceFormatting.ApplyUsdPriceFormats(pc.BinanceUsdPrice, pc.BestMarket, Markets.Binance),
                     PriceFormatting.ApplyUsdPriceFormats(pc.BittrexUsdPrice, pc.BestMarket, Markets.Bittrex),

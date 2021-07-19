@@ -21,7 +21,7 @@ namespace ArbitCrypt.Helpers
 
         public static string CalculateEstimatedProfit(MarketType marketType, Markets bestMarket, decimal binancePrice, decimal bittrexPrice)
         {
-            var balance = marketType == MarketType.Btc ? _config._currentBtcBalance : _config._currentEthBalance;
+            var balance = marketType == MarketType.Btc ? _config.CurrentBtcBalance : _config.CurrentEthBalance;
             var currentPrice = marketType == MarketType.Btc ? _currentPrices.BTCUSD : _currentPrices.ETHUSD;
 
             if (bestMarket == Markets.Binance)
@@ -92,7 +92,7 @@ namespace ArbitCrypt.Helpers
         {
             // typically the Bittrex market is much larger, we'll use it as our starting point
             var priceDiffList = new List<PriceComparison>();
-            foreach (var bittrexPrice in bittrexPrices.result)
+            foreach (var bittrexPrice in bittrexPrices.Result)
             {
                 // get the market type for price calculation
                 var marketType = DiscernMarketType(bittrexPrice.MarketName);
@@ -106,22 +106,24 @@ namespace ArbitCrypt.Helpers
                 if (binancePrice != null)
                 {
                     // calculate the price discrepency and get the best market price
-                    var priceDiscrepency = Price.CalculatePriceDiscrepency(binancePrice.price, bittrexPrice.Last, out var bestPriceMarket);
+                    var trexLast = bittrexPrice.last.GetValueOrDefault();
+                    var binPrice = binancePrice.price;
+                    var priceDiscrepency = Price.CalculatePriceDiscrepency(binPrice, trexLast, out var bestPriceMarket);
                     var priceComparison = new PriceComparison
                     {
                         BestMarket = bestPriceMarket,
                         MarketType = marketType,
                         MarketName = bittrexPrice.MarketName,
-                        BinancePrice = binancePrice.price,
-                        BinanceUsdPrice = CalculateCurrentUsdPrice(marketType, binancePrice.price),
-                        BittrexPrice = bittrexPrice.Last,
-                        BittrexUsdPrice = CalculateCurrentUsdPrice(marketType, bittrexPrice.Last),
+                        BinancePrice = binPrice,
+                        BinanceUsdPrice = CalculateCurrentUsdPrice(marketType, binPrice),
+                        BittrexPrice = trexLast,
+                        BittrexUsdPrice = CalculateCurrentUsdPrice(marketType, trexLast),
                         PriceDiscrepancy = priceDiscrepency,
                         UsdPriceDiscrepancy = CalculateUsdPriceDiscrepency(marketType, priceDiscrepency),
                         ArbitragePercentage = bestPriceMarket != Markets.EvenMarkets
-                                                ? CalculateArbitragePercentage(bestPriceMarket, binancePrice.price, bittrexPrice.Last).ToString("P2")
+                                                ? CalculateArbitragePercentage(bestPriceMarket, binPrice, trexLast).ToString("P2")
                                                 : decimal.Zero.ToString("P3"),
-                        EstimatedProfit = CalculateEstimatedProfit(marketType, bestPriceMarket, binancePrice.price, bittrexPrice.Last)
+                        EstimatedProfit = CalculateEstimatedProfit(marketType, bestPriceMarket, binPrice, trexLast)
                     };
                     priceDiffList.Add(priceComparison);
                 }

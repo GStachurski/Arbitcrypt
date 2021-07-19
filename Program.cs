@@ -38,15 +38,15 @@ namespace ArbitCrypt
                 using (var client = new WebClient())
                 {                    
                     binancePrices = JsonConvert.DeserializeObject<List<BinancePrices>>(
-                        client.DownloadString(_config._binancePricesUrl));
+                        client.DownloadString(_config.BinancePricesUrl));
                     bittrexPrices = JsonConvert.DeserializeObject<BittrexPrices>(
-                        client.DownloadString(_config._bittrexPricesUrl));
+                        client.DownloadString(_config.BittrexPricesUrl));
                     _currentPrices.BTCUSD  = JsonConvert.DeserializeObject<CurrentPrices>(
-                        client.DownloadString(_config._currentPricesUrl + Price.GetCryptoFiatPair(Resources.BTC))).USD;
+                        client.DownloadString(_config.CurrentPricesUrl + Price.GetCryptoFiatPair(Resources.BTC))).USD;
                     _currentPrices.ETHUSD  = JsonConvert.DeserializeObject<CurrentPrices>(
-                        client.DownloadString(_config._currentPricesUrl + Price.GetCryptoFiatPair(Resources.ETH))).USD;
+                        client.DownloadString(_config.CurrentPricesUrl + Price.GetCryptoFiatPair(Resources.ETH))).USD;
                     _currentPrices.USDTUSD = JsonConvert.DeserializeObject<CurrentPrices>(
-                        client.DownloadString(_config._currentPricesUrl + Price.GetCryptoFiatPair(Resources.USDT))).USD;
+                        client.DownloadString(_config.CurrentPricesUrl + Price.GetCryptoFiatPair(Resources.USDT))).USD;
                 }
 
                 // 3. stop the timer, set the calc helper up with the current prices and most recent config
@@ -64,7 +64,7 @@ namespace ArbitCrypt
                 // 6. list the pairs that are over the predefined threshold
                 var overThresholdPairs = priceComparisons.Where(pc => 
                                             Convert.ToDouble(pc.ArbitragePercentage.Replace("%", string.Empty)) > 
-                                                _config._defaultArbitragePercentage);
+                                                _config.DefaultArbitragePercentage);
 
                 //6a. check if there are any to begin with
                 if (overThresholdPairs != null && overThresholdPairs.Any())
@@ -74,7 +74,7 @@ namespace ArbitCrypt
                 //    and prompt for any refresh config variables
                 Dialog.WriteConfigurationAndDiagnosticsToConsole(timer, _priceReadoutCount++);
                 var configurationstring = Dialog.ReadConfigurationLine(
-                    Convert.ToInt32(_config._defaultRefreshTimeoutInSeconds), 
+                    Convert.ToInt32(_config.DefaultRefreshTimeoutInSeconds), 
                     Config.GetCurrentConfig(_config));
                 _config = Config.ResetConfiguration(_config, configurationstring);
             }
@@ -95,7 +95,7 @@ namespace ArbitCrypt
             // prompt for all the information we need
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine(Dialog.GetDialog(ConsoleDialogs.RefreshPricesAsk, _config));
-            _config._defaultRefreshTimeoutInSeconds = Convert.ToDouble(Console.ReadLine());
+            _config.DefaultRefreshTimeoutInSeconds = Convert.ToDouble(Console.ReadLine());
 
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine(Dialog.GetDialog(ConsoleDialogs.RefreshPricesAnswer, _config));
@@ -103,15 +103,15 @@ namespace ArbitCrypt
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine(Dialog.GetDialog(ConsoleDialogs.BitcoinAndEtherAsk, _config));
             string[] currentHoldings = Console.ReadLine().Split('|');
-            _config._currentBtcBalance = Convert.ToDecimal(currentHoldings[0]);
-            _config._currentEthBalance = Convert.ToDecimal(currentHoldings[1]);
+            _config.CurrentBtcBalance = Convert.ToDecimal(currentHoldings[0]);
+            _config.CurrentEthBalance = Convert.ToDecimal(currentHoldings[1]);
 
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine(Dialog.GetDialog(ConsoleDialogs.BitcoinAndEtherAnswer, _config));
 
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine(Dialog.GetDialog(ConsoleDialogs.ArbitrageGainAsk, _config));
-            _config._defaultArbitragePercentage = Convert.ToDouble(Console.ReadLine());
+            _config.DefaultArbitragePercentage = Convert.ToDouble(Console.ReadLine());
 
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine(Dialog.GetDialog(ConsoleDialogs.ArbitrageGainAnswer, _config));

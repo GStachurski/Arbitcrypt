@@ -7,8 +7,8 @@ namespace ArbitCrypt.Classes
 {
     public class TimeableReader
     {
-        private static Thread inputThread;
-        private static AutoResetEvent getInput, gotInput;
+        private static readonly Thread inputThread;
+        private static readonly AutoResetEvent getInput, gotInput;
         private static string input;
 
         static TimeableReader()

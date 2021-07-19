@@ -7,35 +7,35 @@ namespace ArbitCrypt.Configuration
     {
         public ArbitCryptConfiguration()
         {
-            _binancePricesUrl = ConfigurationManager.AppSettings["Binance.PricesUrl"];
-            _bittrexPricesUrl = ConfigurationManager.AppSettings["Bittrex.PricesUrl"];
-            _currentPricesUrl = ConfigurationManager.AppSettings["Compare.PricesUrl"];
+            BinancePricesUrl = ConfigurationManager.AppSettings["Binance.PricesUrl"];
+            BittrexPricesUrl = ConfigurationManager.AppSettings["Bittrex.PricesUrl"];
+            CurrentPricesUrl = ConfigurationManager.AppSettings["Compare.PricesUrl"];
 
-            _defaultArbitragePercentage = Convert.ToDouble(ConfigurationManager.AppSettings["DefaultArbitragePercentage"]);
-            _defaultPromptTimeoutInSeconds = Convert.ToDouble(ConfigurationManager.AppSettings["DefaultPromptTimeoutInSeconds"]);
-            _defaultRefreshTimeoutInSeconds = Convert.ToDouble(ConfigurationManager.AppSettings["DefaultRefreshTimeoutInSeconds"]);
+            DefaultArbitragePercentage = Convert.ToDouble(ConfigurationManager.AppSettings["DefaultArbitragePercentage"]);
+            DefaultPromptTimeoutInSeconds = Convert.ToDouble(ConfigurationManager.AppSettings["DefaultPromptTimeoutInSeconds"]);
+            DefaultRefreshTimeoutInSeconds = Convert.ToDouble(ConfigurationManager.AppSettings["DefaultRefreshTimeoutInSeconds"]);
 
-            _defaultColumnFormat = ConfigurationManager.AppSettings["DefaultColumnFormat"];
-            _defaultSeperatorWidth = Convert.ToInt32(ConfigurationManager.AppSettings["DefaultSeperatorWidth"]);
+            DefaultColumnFormat = ConfigurationManager.AppSettings["DefaultColumnFormat"];
+            DefaultSeperatorWidth = Convert.ToInt32(ConfigurationManager.AppSettings["DefaultSeperatorWidth"]);
         }
 
         // formatting
-        public string _defaultColumnFormat { get; set; }
-        public int _defaultSeperatorWidth { get; set; }
+        public string DefaultColumnFormat { get; set; }
+        public int DefaultSeperatorWidth { get; set; }
 
         // urls
-        public string _binancePricesUrl { get; set; }
-        public string _bittrexPricesUrl { get; set; }
-        public string _currentPricesUrl { get; set; }
+        public string BinancePricesUrl { get; set; }
+        public string BittrexPricesUrl { get; set; }
+        public string CurrentPricesUrl { get; set; }
 
         // refresh times and percentages
-        public string _currentRefreshConfigString { get; set; }
-        public double _defaultArbitragePercentage { get; set; }
-        public double _defaultPromptTimeoutInSeconds { get; set; }
-        public double _defaultRefreshTimeoutInSeconds { get; set; }
+        public string CurrentRefreshConfigString { get; set; }
+        public double DefaultArbitragePercentage { get; set; }
+        public double DefaultPromptTimeoutInSeconds { get; set; }
+        public double DefaultRefreshTimeoutInSeconds { get; set; }
 
         //console derived values
-        public decimal _currentEthBalance { get; set; }
-        public decimal _currentBtcBalance { get; set; }
+        public decimal CurrentEthBalance { get; set; }
+        public decimal CurrentBtcBalance { get; set; }
     }
 }
