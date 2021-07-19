@@ -100,6 +100,8 @@ namespace ArbitCrypt.Helpers
                 "EstProfit");
             Console.WriteLine(new string('-', CurrentConfig.DefaultSeperatorWidth));
 
+            // TODO: final list filtering (volume, 100%ers, etc.)
+
             // rows
             foreach (var pc in priceComparisons.OrderByDescending(pc => 
                 // removing the currency symbol so the sorting works properly
